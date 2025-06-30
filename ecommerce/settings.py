@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--l4=w@^ihb6r9t8l1mq9jjnx=86q5*d=*a^srrimj6&j4_4c*e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ecommerce-peach-three.vercel.app', '127.0.0.1', 'localhost']
 
 
 # Application definition
