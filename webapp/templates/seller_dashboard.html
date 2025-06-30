@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<h3 class="mb-4 text-info fw-bold border-bottom pb-2">Your Products</h3>
+
+<!-- Add Product Form -->
+<div class="mb-5 p-4 rounded bg-dark text-light shadow">
+  <h4 class="mb-3">Add New Product</h4>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="row g-3 mb-3">
+      <div class="col-md-6">
+        <label class="form-label">{{ form.name_product.label }}</label>
+        {{ form.name_product|add_class:"form-control bg-secondary text-light border-0" }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">{{ form.price.label }}</label>
+        {{ form.price|add_class:"form-control bg-secondary text-light border-0" }}
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">{{ form.description.label }}</label>
+      {{ form.description|add_class:"form-control bg-secondary text-light border-0" }}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">{{ form.photo.label }}</label>
+      {{ form.photo|add_class:"form-control bg-secondary text-light border-0" }}
+    </div>
+
+    <button type="submit" class="btn custom-btn w-100">➕ Add Product</button>
+  </form>
+</div>
+
+
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-50 shadow-sm card-hover bg-secondary text-white">
+        {% if product.photo %}
+          <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.name_product }}">
+        {% else %}
+          <img src="{% static 'placeholder.jpg' %}" class="card-img-top" alt="No Image">
+        {% endif %}
+
+        <div class="card-body">
+          <h5 class="card-title text-white fw-bold text-uppercase">{{ product.name_product }}</h5>
+          <p class="card-text text-white small mb-2">{{ product.description }}</p>
+          <p class="card-text fs-5 fw-semibold">
+            <span class="badge bg-light text-dark">💲{{ product.price }}</span>
+          </p>
+        </div>
+        <div class="card-footer">
+          <small class="text-white"> Posted on: {{ product.created_at|date:"M d, Y" }}</small>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>You have not listed any products yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

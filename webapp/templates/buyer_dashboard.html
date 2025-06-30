@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<h2>All Products</h2>
+
+{% if user.is_authenticated %}
+  <h5 class="text-muted">Welcome, {{ user.first_name }} {{ user.last_name }}</h5>
+{% endif %}
+{{product_list }}
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-5 shadow-sm card-hover bg-secondary text-light">
+                {% if product.photo %}
+                    <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.name_product }}">
+                {% else %}
+                    <img src="{% static 'placeholder.jpg' %}" class="card-img-top" alt="No Image">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name_product }}</h5>
+                    <p class="card-text">{{ product.description }}</p>
+                    <p class="card-text mb-3 fs-5 fw-semibold">
+                     <span class="badge bg-light text-dark fw-semibold">💲{{ product.price }}</span>
+                    </p>
+                    <a href="{% url 'add_to_cart' product.id %}" class="btn custom-btn mt-3 w-100">
+                     Add to Cart</a>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Sold by: {{ product.seller_pr.user.username }}</small>
+                    <small class="text-muted">Sold by: {{ product.seller_pr.user.vendor}}</small>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No products available.</p>
+    {% endfor %}
+    
+</div>
+
+{% endblock %}
