@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if not user.is_authenticated %}
+  <h3 class="text-white">Login</h3>
+  <form method="POST" class="bg-dark p-4 rounded shadow mb-5">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="User_name" class="form-label text-white">Username</label>
+      <input type="text" name="User_name" class="form-control bg-secondary text-light border-0" required>
+    </div>
+    <div class="mb-3">
+      <label for="Password" class="form-label text-white">Password</label>
+      <input type="password" name="Password" class="form-control bg-secondary text-light border-0" required>
+    </div>
+    <button type="submit" class="btn custom-btn w-100">Login</button>
+  </form>
+{% endif %}
+
+<h2 class="text-white mb-4">Available Products</h2>
+
+{% if user.is_authenticated %}
+  <h5 class="text-light-emphasis mb-4">Welcome, {{ user.first_name }} {{ user.last_name }}</h5>
+{% endif %}
+
+<div class="row">
+  {% for product in products %}
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm card-hover bg-secondary text-white">
+        {% if product.photo %}
+          <img src="{{ product.photo.url }}" class="card-img-top" alt="{{ product.name_product }}">
+        {% else %}
+          <img src="{% static 'placeholder.jpg' %}" class="card-img-top" alt="No Image">
+        {% endif %}
+
+        <div class="card-body">
+          <h5 class="card-title fw-bold text-uppercase">{{ product.name_product }}</h5>
+          <p class="card-text text-white small mb-2">{{ product.description }}</p>
+          <p class="card-text mb-3 fs-5 fw-semibold">
+            <span class="badge bg-light text-dark fw-semibold">💲{{ product.price }}</span>
+          </p>
+        </div>
+        <div class="card-footer bg-secondary border-0">
+          <small class="text-white">Sold by: {{ product.seller_pr.user.username }}</small><br>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p class="text-light">No products available.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
