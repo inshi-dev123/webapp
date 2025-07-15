@@ -31,6 +31,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = ['webapp-one-wheat.vercel.app','.vercel.app','127.0.0.1','localhost',]
 
+#   New Change 
 
 # Application definition
 
